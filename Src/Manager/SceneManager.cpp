@@ -30,11 +30,11 @@ void SceneManager::Init(void)
 	sceneId_ = SCENE_ID::TITLE;
 	waitSceneId_ = SCENE_ID::NONE;
 
-	fader_ = new Fader();
+	fader_ = std::make_unique<Fader>();
 	fader_->Init();
 
 	// カメラ
-	camera_ = new Camera();
+	camera_ = std::make_unique<Camera>();
 	camera_->Init();
 
 	isSceneChanging_ = false;
@@ -140,17 +140,7 @@ void SceneManager::Draw(void)
 
 void SceneManager::Destroy(void)
 {
-
-	if (scene_ != nullptr)
-	{
-		delete scene_;
-	}
-
-	delete fader_;
-	delete camera_;
-
 	delete instance_;
-
 }
 
 void SceneManager::ChangeScene(SCENE_ID nextId)
@@ -177,7 +167,7 @@ float SceneManager::GetDeltaTime(void) const
 	return deltaTime_;
 }
 
-Camera* SceneManager::GetCamera(void) const
+std::shared_ptr<Camera> SceneManager::GetCamera(void) const
 {
 	return camera_;
 }
@@ -215,19 +205,13 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	// シーンを変更する
 	sceneId_ = sceneId;
 
-	// 現在のシーンを解放
-	if (scene_ != nullptr)
-	{
-		delete scene_;
-	}
-
 	switch (sceneId_)
 	{
 	case SCENE_ID::TITLE:
-		scene_ = new TitleScene();
+		scene_ = std::make_unique<TitleScene>();
 		break;
 	case SCENE_ID::GAME:
-		scene_ = new GameScene();
+		scene_ = std::make_unique<GameScene>();
 		break;
 	}
 

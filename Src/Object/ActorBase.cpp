@@ -1,5 +1,6 @@
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
+#include "Common/TestRenderer.h"
 #include "ActorBase.h"
 
 ActorBase::ActorBase(void)

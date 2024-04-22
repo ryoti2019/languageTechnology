@@ -13,7 +13,7 @@ Camera::Camera(void)
 	mode_ = MODE::NONE;
 	pos_ = AsoUtility::VECTOR_ZERO;
 	targetPos_ = AsoUtility::VECTOR_ZERO;
-	followTransform_ = nullptr;
+	//followTransform_ = nullptr;
 }
 
 Camera::~Camera(void)

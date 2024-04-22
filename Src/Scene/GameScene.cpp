@@ -30,7 +30,7 @@ void GameScene::Init(void)
 	player_->Init();
 
 	// ステージ
-	stage_ = std::make_unique<Stage>(player_);
+	stage_ = std::make_unique<Stage>(*player_);
 	stage_->Init();
 
 	// ステージの初期設定

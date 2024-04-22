@@ -1,5 +1,6 @@
 #pragma once
 #include <chrono>
+#include <memory>
 
 class SceneBase;
 class Fader;
@@ -42,7 +43,7 @@ public:
 	float GetDeltaTime(void) const;
 
 	// カメラの取得
-	Camera* GetCamera(void) const;
+	std::shared_ptr<Camera> GetCamera(void) const;
 
 private:
 
@@ -53,13 +54,13 @@ private:
 	SCENE_ID waitSceneId_;
 
 	// 各種シーン
-	SceneBase* scene_;
+	std::unique_ptr<SceneBase> scene_;
 
 	// フェード
-	Fader* fader_;
+	std::unique_ptr<Fader> fader_;
 
 	// カメラ
-	Camera* camera_;
+	std::shared_ptr<Camera> camera_;
 
 	// シーン遷移中判定
 	bool isSceneChanging_;

@@ -4,16 +4,10 @@
 #include "Player.h"
 #include "WarpStar.h"
 
-WarpStar::WarpStar(
-	std::shared_ptr<Player> player, const Transform& transform)
+WarpStar::WarpStar(Player& player, const Transform& transform): player_(player)
 {
-	
-	player_ = player;
-
 	transform_ = transform;
-
 	state_ = STATE::NONE;
-
 }
 
 WarpStar::~WarpStar(void)

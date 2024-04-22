@@ -11,10 +11,9 @@
 #include "Common/Transform.h"
 #include "Stage.h"
 
-Stage::Stage(std::shared_ptr<Player> player)
-	: resMng_(ResourceManager::GetInstance())
+Stage::Stage(Player& player): resMng_(ResourceManager::GetInstance()), player_(player)
+
 {
-	player_ = player;
 	activeName_ = NAME::MAIN_PLANET;
 	step_ = 0.0f;
 }
@@ -23,17 +22,9 @@ Stage::~Stage(void)
 {
 	
 	// ワープスター
-	for (auto star : warpStars_)
-	{
-		delete star;
-	}
 	warpStars_.clear();
 	
 	// 惑星
-	for (auto pair : planets_)
-	{
-		delete pair.second;
-	}
 	planets_.clear();
 
 }
@@ -89,14 +80,14 @@ void Stage::ChangeStage(NAME type)
 	activePlanet_ = GetPlanet(activeName_);
 
 	// ステージの当たり判定をプレイヤーに設定
-	player_.lock()->ClearCollider();
-	player_.lock()->AddCollider(activePlanet_->GetTransform().collider);
+	player_.ClearCollider();
+	player_.AddCollider(activePlanet_->GetTransform().collider);
 
 	step_ = TIME_STAGE_CHANGE;
 
 }
 
-Planet* Stage::GetPlanet(NAME type)
+std::shared_ptr<Planet> Stage::GetPlanet(NAME type)
 {
 	if (planets_.count(type) == 0)
 	{
@@ -137,7 +128,7 @@ void Stage::MakeWarpStar(void)
 {
 
 	Transform trans;
-	WarpStar* star;
+	std::unique_ptr<WarpStar> star;
 
 	// 落とし穴惑星へのワープスター
 	//------------------------------------------------------------------------------
@@ -149,9 +140,9 @@ void Stage::MakeWarpStar(void)
 		AsoUtility::Deg2RadF(0.0f)
 	);
 
-	star = new WarpStar(player_.lock(), trans);
+	star = std::make_unique<WarpStar>(player_, trans);
 	star->Init();
-	warpStars_.push_back(star);
+	warpStars_.push_back(std::move(star));
 	//------------------------------------------------------------------------------
 
 }

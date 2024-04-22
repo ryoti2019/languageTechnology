@@ -32,7 +32,7 @@ public:
 	};
 
 	// コンストラクタ
-	Stage(std::shared_ptr<Player> player);
+	Stage(Player& player);
 
 	// デストラクタ
 	~Stage(void);
@@ -45,27 +45,27 @@ public:
 	void ChangeStage(NAME type);
 
 	// 対象ステージを取得
-	Planet* GetPlanet(NAME type);
+	std::shared_ptr<Planet> GetPlanet(NAME type);
 
 private:
 
 	// シングルトン参照
 	ResourceManager& resMng_;
 
-	std::weak_ptr<Player> player_;
+	Player& player_;
 
 	// ステージアクティブになっている惑星の情報
 	NAME activeName_;
-	Planet* activePlanet_;
+	std::shared_ptr<Planet> activePlanet_;
 
 	// 惑星
-	std::map<NAME, Planet*> planets_;
+	std::map<NAME, std::shared_ptr<Planet>> planets_;
 
 	// ワープスター
-	std::vector<WarpStar*> warpStars_;
+	std::vector<std::unique_ptr<WarpStar>> warpStars_;
 
 	// 空のPlanet
-	Planet* nullPlanet = nullptr;
+	std::shared_ptr<Planet> nullPlanet = nullptr;
 
 	float step_;
 

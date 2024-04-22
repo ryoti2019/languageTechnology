@@ -34,6 +34,7 @@
     <ClCompile Include="Src\Object\Common\Capsule.cpp" />
     <ClCompile Include="Src\Object\Common\Collider.cpp" />
     <ClCompile Include="Src\Object\Common\SpeechBalloon.cpp" />
+    <ClCompile Include="Src\Object\Common\TestRenderer.cpp" />
     <ClCompile Include="Src\Object\Common\Transform.cpp" />
     <ClCompile Include="Src\Object\Planet.cpp" />
     <ClCompile Include="Src\Object\Player.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="Src\Object\Common\Capsule.h" />
     <ClInclude Include="Src\Object\Common\Collider.h" />
     <ClInclude Include="Src\Object\Common\SpeechBalloon.h" />
+    <ClInclude Include="Src\Object\Common\TestRenderer.h" />
     <ClInclude Include="Src\Object\Common\Transform.h" />
     <ClInclude Include="Src\Object\Planet.h" />
     <ClInclude Include="Src\Object\Player.h" />

@@ -8,6 +8,7 @@
 #include "Common/AnimationController.h"
 #include "Common/Capsule.h"
 #include "Common/Collider.h"
+#include "Common/TestRenderer.h"
 #include "Planet.h"
 #include "Player.h"
 
@@ -42,8 +43,6 @@ Player::Player(void)
 
 Player::~Player(void)
 {
-	delete capsule_;
-	delete animationController_;
 }
 
 void Player::Init(void)
@@ -59,11 +58,14 @@ void Player::Init(void)
 		Quaternion::Euler({ 0.0f, AsoUtility::Deg2RadF(180.0f), 0.0f });
 	transform_.Update();
 
+	// テストクラスのインスタンス生成
+	testRenderer_ = std::make_unique<TestRenderer>(shared_from_this());
+
 	// アニメーションの設定
 	InitAnimation();
 
 	// カプセルコライダ
-	capsule_ = new Capsule(transform_);
+	capsule_ = std::make_shared<Capsule>(transform_);
 	capsule_->SetLocalPosTop({ 0.0f, 110.0f, 0.0f });
 	capsule_->SetLocalPosDown({ 0.0f, 30.0f, 0.0f });
 	capsule_->SetRadius(20.0f);
@@ -109,7 +111,7 @@ void Player::Draw(void)
 
 }
 
-void Player::AddCollider(Collider* collider)
+void Player::AddCollider(std::shared_ptr<Collider> collider)
 {
 	colliders_.push_back(collider);
 }
@@ -119,7 +121,7 @@ void Player::ClearCollider(void)
 	colliders_.clear();
 }
 
-const Capsule* Player::GetCapsule(void) const
+const std::weak_ptr<Capsule> Player::GetCapsule(void) const
 {
 	return capsule_;
 }
@@ -128,7 +130,7 @@ void Player::InitAnimation(void)
 {
 
 	std::string path = Application::PATH_MODEL + "Player/";
-	animationController_ = new AnimationController(transform_.modelId);
+	animationController_ = std::make_unique<AnimationController>(transform_.modelId);
 	animationController_->Add((int)ANIM_TYPE::IDLE, path + "Idle.mv1", 20.0f);
 	animationController_->Add((int)ANIM_TYPE::RUN, path + "Run.mv1", 20.0f);
 	animationController_->Add((int)ANIM_TYPE::FAST_RUN, path + "FastRun.mv1", 20.0f);
@@ -219,7 +221,7 @@ void Player::DrawShadow(void)
 	SetTextureAddressMode(DX_TEXADDRESS_CLAMP);
 
 	// 影を落とすモデルの数だけ繰り返し
-	for (const auto c : colliders_)
+	for (const auto& c : colliders_)
 	{
 
 		// チェックするモデルは、jが0の時はステージモデル、1以上の場合はコリジョンモデル
@@ -479,7 +481,7 @@ void Player::CollisionGravity(void)
 	gravHitPosUp_ = VAdd(movedPos_, VScale(dirUpGravity, gravityPow));
 	gravHitPosUp_ = VAdd(gravHitPosUp_, VScale(dirUpGravity, checkPow * 2.0f));
 	gravHitPosDown_ = VAdd(movedPos_, VScale(dirGravity, checkPow));
-	for (const auto c : colliders_)
+	for (const auto& c : colliders_)
 	{
 
 		// 地面との衝突
@@ -522,8 +524,9 @@ void Player::CollisionCapsule(void)
 	trans.Update();
 	Capsule cap = Capsule(*capsule_, trans);
 
+
 	// カプセルとの衝突判定
-	for (const auto c : colliders_)
+	for (const auto& c : colliders_)
 	{
 
 		auto hits = MV1CollCheck_Capsule(
