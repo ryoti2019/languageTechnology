@@ -43,7 +43,7 @@ public:
 	float GetDeltaTime(void) const;
 
 	// ƒJƒƒ‰‚Ìæ“¾
-	std::shared_ptr<Camera> GetCamera(void) const;
+	std::weak_ptr<Camera> GetCamera(void) const;
 
 private:
 

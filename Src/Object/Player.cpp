@@ -301,7 +301,8 @@ void Player::ProcessMove(void)
 	movePow_ = AsoUtility::VECTOR_ZERO;
 
 	// X軸回転を除いた、重力方向に垂直なカメラ角度(XZ平面)を取得
-	Quaternion cameraRot = SceneManager::GetInstance().GetCamera()->GetQuaRotOutX();
+	auto camera = SceneManager::GetInstance().GetCamera();
+	Quaternion cameraRot = camera.lock().get()->GetQuaRotOutX();
 
 	// 回転したい角度
 	double rotRad = 0;
@@ -418,7 +419,8 @@ void Player::ProcessJump(void)
 void Player::SetGoalRotate(double rotRad)
 {
 
-	VECTOR cameraRot = SceneManager::GetInstance().GetCamera()->GetAngles();
+	auto camera = SceneManager::GetInstance().GetCamera();
+	VECTOR cameraRot = camera.lock().get()->GetAngles();
 	Quaternion axis = Quaternion::AngleAxis((double)cameraRot.y + rotRad, AsoUtility::AXIS_Y);
 
 	// 現在設定されている回転との角度差を取る

@@ -34,7 +34,7 @@ void SceneManager::Init(void)
 	fader_->Init();
 
 	// ƒJƒƒ‰
-	camera_ = std::make_unique<Camera>();
+	camera_ = std::make_shared<Camera>();
 	camera_->Init();
 
 	isSceneChanging_ = false;
@@ -167,7 +167,7 @@ float SceneManager::GetDeltaTime(void) const
 	return deltaTime_;
 }
 
-std::shared_ptr<Camera> SceneManager::GetCamera(void) const
+std::weak_ptr<Camera> SceneManager::GetCamera(void) const
 {
 	return camera_;
 }

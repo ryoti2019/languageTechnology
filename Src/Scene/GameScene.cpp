@@ -40,8 +40,11 @@ void GameScene::Init(void)
 	skyDome_ = std::make_unique<SkyDome>(player_->GetTransform());
 	skyDome_->Init();
 
-	SceneManager::GetInstance().GetCamera()->SetFollow(&player_->GetTransform());
-	SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FOLLOW);
+	std::weak_ptr<Camera> camera = SceneManager::GetInstance().GetCamera();
+	camera.lock().get()->SetFollow(&player_->GetTransform());
+	camera.lock().get()->ChangeMode(Camera::MODE::FOLLOW);
+	//SceneManager::GetInstance().GetCamera().lock().get().SetFollow(&player_->GetTransform());
+	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FOLLOW);
 
 }
 

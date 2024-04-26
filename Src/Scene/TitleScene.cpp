@@ -67,7 +67,8 @@ void TitleScene::Init(void)
 	animationController_->Play(0);
 
 	// ’è“_ƒJƒƒ‰
-	SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FIXED_POINT);
+	auto camera = SceneManager::GetInstance().GetCamera();
+	camera.lock().get()->ChangeMode(Camera::MODE::FIXED_POINT);
 
 }
 
