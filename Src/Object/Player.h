@@ -59,8 +59,10 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 
+	void SetTransform(std::vector<float> pos, std::vector<float> quaRot);
+
 	// 衝突判定に用いられるコライダ制御
-	void AddCollider(std::shared_ptr<Collider> collider);
+	void AddCollider(std::weak_ptr<Collider> collider);
 	void ClearCollider(void);
 
 	// 衝突用カプセルの取得
@@ -101,7 +103,7 @@ private:
 	float stepJump_;
 
 	// 衝突判定に用いられるコライダ
-	std::vector<std::shared_ptr<Collider>> colliders_;
+	std::vector<std::weak_ptr<Collider>> colliders_;
 	std::shared_ptr<Capsule> capsule_;
 
 	// 衝突チェック

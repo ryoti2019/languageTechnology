@@ -111,7 +111,18 @@ void Player::Draw(void)
 
 }
 
-void Player::AddCollider(std::shared_ptr<Collider> collider)
+void Player::SetTransform(std::vector<float> pos, std::vector<float> quaRot)
+{
+	transform_.pos.x = pos[0];
+	transform_.pos.y = pos[1];
+	transform_.pos.z = pos[2];
+	transform_.quaRot.x = quaRot[0];
+	transform_.quaRot.y = quaRot[1];
+	transform_.quaRot.z = quaRot[2];
+	transform_.quaRot.w = quaRot[3];
+}
+
+void Player::AddCollider(std::weak_ptr<Collider> collider)
 {
 	colliders_.push_back(collider);
 }
@@ -225,7 +236,7 @@ void Player::DrawShadow(void)
 	{
 
 		// チェックするモデルは、jが0の時はステージモデル、1以上の場合はコリジョンモデル
-		ModelHandle = c->modelId_;
+		ModelHandle = c.lock()->modelId_;
 
 		// プレイヤーの直下に存在する地面のポリゴンを取得
 		HitResDim = MV1CollCheck_Capsule(
@@ -488,7 +499,7 @@ void Player::CollisionGravity(void)
 
 		// 地面との衝突
 		auto hit = MV1CollCheck_Line(
-			c->modelId_, -1, gravHitPosUp_, gravHitPosDown_);
+			c.lock()->modelId_, -1, gravHitPosUp_, gravHitPosDown_);
 
 		// 最初は上の行のように実装して、木の上に登ってしまうことを確認する
 		//if (hit.HitFlag > 0)
@@ -532,7 +543,7 @@ void Player::CollisionCapsule(void)
 	{
 
 		auto hits = MV1CollCheck_Capsule(
-			c->modelId_, -1,
+			c.lock()->modelId_, -1,
 			cap.GetPosTop(), cap.GetPosDown(), cap.GetRadius());
 
 		for (int i = 0; i < hits.HitNum; i++)

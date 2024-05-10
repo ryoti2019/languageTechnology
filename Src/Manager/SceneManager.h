@@ -45,6 +45,8 @@ public:
 	// カメラの取得
 	std::weak_ptr<Camera> GetCamera(void) const;
 
+	int GetMainScreen();
+
 private:
 
 	// 静的インスタンス
@@ -69,6 +71,8 @@ private:
 	std::chrono::system_clock::time_point preTime_;
 	float deltaTime_;
 	
+	int mainScreen_;
+
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする
 	SceneManager(void);

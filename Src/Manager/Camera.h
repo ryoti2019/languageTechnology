@@ -34,6 +34,7 @@ public:
 	enum class MODE
 	{
 		NONE,
+		FREE,
 		FIXED_POINT,
 		FOLLOW,
 		SELF_SHOT

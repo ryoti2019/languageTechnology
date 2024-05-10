@@ -79,6 +79,10 @@ void ResourceManager::Init(void)
 	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/RoadPlanet.mv1");
 	resourcesMap_.emplace(SRC::SPECIAL_PLANET, res);
 
+	// ‰Æ
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/Stage.mv1");
+	resourcesMap_.emplace(SRC::HOUSE, res);
+
 	// ‘«‰Œ
 	res = new RES(RES_T::EFFEKSEER, PATH_EFF + "Smoke/Smoke.efkefc");
 	resourcesMap_.emplace(SRC::FOOT_SMOKE, res);

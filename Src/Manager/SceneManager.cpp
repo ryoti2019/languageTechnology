@@ -4,6 +4,7 @@
 #include "../Common/Fader.h"
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
+#include "../Application.h"
 #include "Camera.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
@@ -41,6 +42,10 @@ void SceneManager::Init(void)
 
 	// デルタタイム
 	preTime_ = std::chrono::system_clock::now();
+
+	// メインスクリーン
+	mainScreen_ = MakeScreen(Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y);
+
 
 	// 3D用の設定
 	Init3D();
@@ -113,7 +118,7 @@ void SceneManager::Draw(void)
 	
 	// 描画先グラフィック領域の指定
 	// (３Ｄ描画で使用するカメラの設定などがリセットされる)
-	SetDrawScreen(DX_SCREEN_BACK);
+	SetDrawScreen(mainScreen_);
 
 	// 画面を初期化
 	ClearDrawScreen();
@@ -136,10 +141,15 @@ void SceneManager::Draw(void)
 	// 暗転・明転
 	fader_->Draw();
 
+	// 背面スクリーンにメインスクリーンを描画
+	SetDrawScreen(DX_SCREEN_BACK);
+	DrawGraph(0, 0, mainScreen_, false);
+
 }
 
 void SceneManager::Destroy(void)
 {
+	DeleteGraph(mainScreen_);
 	delete instance_;
 }
 
@@ -170,6 +180,11 @@ float SceneManager::GetDeltaTime(void) const
 std::weak_ptr<Camera> SceneManager::GetCamera(void) const
 {
 	return camera_;
+}
+
+int SceneManager::GetMainScreen()
+{
+	return mainScreen_;
 }
 
 SceneManager::SceneManager(void)

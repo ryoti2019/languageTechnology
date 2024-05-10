@@ -81,13 +81,13 @@ void Stage::ChangeStage(NAME type)
 
 	// ステージの当たり判定をプレイヤーに設定
 	player_.ClearCollider();
-	player_.AddCollider(activePlanet_->GetTransform().collider);
+	player_.AddCollider(activePlanet_.lock()->GetTransform().collider);
 
 	step_ = TIME_STAGE_CHANGE;
 
 }
 
-std::shared_ptr<Planet> Stage::GetPlanet(NAME type)
+std::weak_ptr<Planet> Stage::GetPlanet(NAME type)
 {
 	if (planets_.count(type) == 0)
 	{

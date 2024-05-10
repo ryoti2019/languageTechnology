@@ -45,7 +45,7 @@ public:
 	void ChangeStage(NAME type);
 
 	// 対象ステージを取得
-	std::shared_ptr<Planet> GetPlanet(NAME type);
+	std::weak_ptr<Planet> GetPlanet(NAME type);
 
 private:
 
@@ -56,7 +56,7 @@ private:
 
 	// ステージアクティブになっている惑星の情報
 	NAME activeName_;
-	std::shared_ptr<Planet> activePlanet_;
+	std::weak_ptr<Planet> activePlanet_;
 
 	// 惑星
 	std::map<NAME, std::shared_ptr<Planet>> planets_;
