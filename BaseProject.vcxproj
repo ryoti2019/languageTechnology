@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Common\Material.cpp" />
     <ClCompile Include="Src\Manager\SaveLoadManager.cpp" />
+    <ClCompile Include="Src\Object\Common\Renderer.cpp" />
+    <ClCompile Include="Src\Object\Common\RendererManager.cpp" />
     <ClCompile Include="Src\Object\Enemy\Enemy.cpp" />
     <ClCompile Include="Src\Object\ActorBase.cpp" />
     <ClCompile Include="Src\Application.cpp" />
@@ -43,6 +46,7 @@
     <ClCompile Include="Src\Object\Player.cpp" />
     <ClCompile Include="Src\Object\SkyDome.cpp" />
     <ClCompile Include="Src\Object\Stage.cpp" />
+    <ClCompile Include="Src\Object\UnityStage.cpp" />
     <ClCompile Include="Src\Object\WarpStar.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
@@ -110,6 +114,9 @@
     <ClInclude Include="Src\Object\Common\AnimationController.h" />
     <ClInclude Include="Src\Object\Common\Capsule.h" />
     <ClInclude Include="Src\Object\Common\Collider.h" />
+    <ClInclude Include="Src\Object\Common\Material.h" />
+    <ClInclude Include="Src\Object\Common\Renderer.h" />
+    <ClInclude Include="Src\Object\Common\RendererManager.h" />
     <ClInclude Include="Src\Object\Common\SpeechBalloon.h" />
     <ClInclude Include="Src\Object\Common\TestRenderer.h" />
     <ClInclude Include="Src\Object\Common\Transform.h" />
@@ -119,6 +126,7 @@
     <ClInclude Include="Src\Object\Player.h" />
     <ClInclude Include="Src\Object\SkyDome.h" />
     <ClInclude Include="Src\Object\Stage.h" />
+    <ClInclude Include="Src\Object\UnityStage.h" />
     <ClInclude Include="Src\Object\WarpStar.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
@@ -136,6 +144,14 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\PostEffect\Monotone.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Src\Shader\PostEffect\ScanLine.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

@@ -79,9 +79,29 @@ void ResourceManager::Init(void)
 	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/RoadPlanet.mv1");
 	resourcesMap_.emplace(SRC::SPECIAL_PLANET, res);
 
-	// ‰Æ
-	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/Stage.mv1");
-	resourcesMap_.emplace(SRC::HOUSE, res);
+	// ’n–Ê
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/Ground.mv1");
+	resourcesMap_.emplace(SRC::GROUND, res);
+
+	// ‰Æ‚P
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/House1.mv1");
+	resourcesMap_.emplace(SRC::HOUSE1, res);
+
+	// ‰Æ‚Q
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/House2.mv1");
+	resourcesMap_.emplace(SRC::HOUSE2, res);
+
+	// ‰Æ‚R
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/House3.mv1");
+	resourcesMap_.emplace(SRC::HOUSE3, res);
+
+	// –Ø1
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/TreeThick.mv1");
+	resourcesMap_.emplace(SRC::TREE_THICK, res);
+
+	// –Ø2
+	res = new RES(RES_T::MODEL, PATH_MDL + "Planet/TreeThin.mv1");
+	resourcesMap_.emplace(SRC::TREE_THIN, res);
 
 	// ‘«‰Œ
 	res = new RES(RES_T::EFFEKSEER, PATH_EFF + "Smoke/Smoke.efkefc");

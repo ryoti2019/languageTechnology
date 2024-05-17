@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 class Player;
+class Stage;
 class SaveLoadManager
 {
 public:
@@ -13,6 +14,7 @@ public:
 	void Load(void);
 	void Save(void);
 	void SetPlayer(std::shared_ptr<Player> player);
+
 private:
 
 	std::shared_ptr<Player> player_ = nullptr;

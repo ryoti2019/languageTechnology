@@ -1,10 +1,15 @@
 #pragma once
+#include<memory>
 #include "SceneBase.h"
 class Stage;
 class SkyDome;
 class Player;
 class EnemyManager;
 class SaveLoadManager;
+class UnityStage;
+class RendererManager;
+class Renderer;
+class Material;
 
 class GameScene : public SceneBase
 {
@@ -36,7 +41,7 @@ private:
 	static constexpr int NUM_POLYGON = 2;
 
 	// ステージ
-	std::unique_ptr<Stage> stage_;
+	std::shared_ptr<Stage> stage_;
 
 	// スカイドーム
 	std::unique_ptr<SkyDome> skyDome_;
@@ -50,6 +55,24 @@ private:
 	// セーブとロードの管理
 	std::unique_ptr<SaveLoadManager> saveLoadManager_;
 
+	// Unityから読み込んだステージ
+	std::unique_ptr<UnityStage> unityStage_;
+
+	// レンダラーマネージャー
+	std::unique_ptr<RendererManager> rendererManager_;
+
+	// モノマテリアル
+	std::shared_ptr<Material> monoMaterial_;
+
+	// モノレンダラー
+	std::unique_ptr<Renderer> monoRenderer_;
+
+	// 走査線マテリアル
+	std::shared_ptr<Material> scanMaterial_;
+
+	// 走査線レンダラー
+	std::unique_ptr<Renderer> scanRenderer_;
+
 	// ポストエフェクト用スクリーン(モノクロ)
 	int postEffectScreenMono_;
 
@@ -58,6 +81,16 @@ private:
 
 	// 定数バッファハンドル
 	int monoShaderConstBuf_;
+
+	// ポストエフェクト用スクリーン(モノクロ)
+	//------------------------------------------
+	int postEffectScreenScan_;
+
+	// シェーダハンドル
+	int scanShader_;
+
+	// 定数バッファハンドル
+	int scanShaderConstBuf_;
 
 	// セピアカラー
 	int sepiaColorConstBuf_;

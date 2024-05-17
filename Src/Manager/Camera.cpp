@@ -45,6 +45,8 @@ void Camera::SetBeforeDraw(void)
 	case Camera::MODE::FOLLOW:
 		SetBeforeDrawFollow();
 		break;
+	case Camera::MODE::FREE:
+		SetBeforeDrawSelfShot();
 	}
 
 	// カメラの設定(位置と注視点による制御)
@@ -113,6 +115,8 @@ void Camera::ChangeMode(MODE mode)
 	case Camera::MODE::FIXED_POINT:
 		break;
 	case Camera::MODE::FOLLOW:
+		break;
+	case Camera::MODE::FREE:
 		break;
 	}
 
@@ -225,4 +229,74 @@ void Camera::SetBeforeDrawFollow(void)
 
 void Camera::SetBeforeDrawSelfShot(void)
 {
+
+	auto& ins = InputManager::GetInstance();
+
+	// 回転
+	//-------------------------------------
+	VECTOR axisDeg = AsoUtility::VECTOR_ZERO;
+	if (ins.IsNew(KEY_INPUT_UP)) { axisDeg.x += -5.0f; }
+	if (ins.IsNew(KEY_INPUT_DOWN)) { axisDeg.x += 5.0f; }
+	if (ins.IsNew(KEY_INPUT_LEFT)) { axisDeg.y += -5.0f; }
+	if (ins.IsNew(KEY_INPUT_RIGHT)) { axisDeg.y += 5.0f; }
+
+	// 移動
+	//--------------------------------------
+	VECTOR moveDir = AsoUtility::VECTOR_ZERO;
+	if (ins.IsNew(KEY_INPUT_W)) { moveDir = AsoUtility::DIR_F; }
+	if (ins.IsNew(KEY_INPUT_A)) { moveDir = AsoUtility::DIR_L; }
+	if (ins.IsNew(KEY_INPUT_S)) { moveDir = AsoUtility::DIR_B; }
+	if (ins.IsNew(KEY_INPUT_D)) { moveDir = AsoUtility::DIR_R; }
+	if (ins.IsNew(KEY_INPUT_Q)) { moveDir = AsoUtility::DIR_U; }
+	if (ins.IsNew(KEY_INPUT_E)) { moveDir = AsoUtility::DIR_D; }
+	//---------------------------------------
+
+	if (!AsoUtility::EqualsVZero(axisDeg))
+	{
+
+		// カメラ座標を中心として、注視点を回転させる
+
+		// 加えたい回転量
+		Quaternion rotPow;
+		//rotPow = rotPow.Mult(
+		//	Quaternion::AngleAxis(
+		//		AsoUtility::Deg2RadF(axisDeg.z), AsoUtility::AXIS_Z));
+		rotPow = rotPow.Mult(
+			Quaternion::AngleAxis(
+				AsoUtility::Deg2RadF(axisDeg.x), AsoUtility::AXIS_X));
+		rotPow = rotPow.Mult(
+			Quaternion::AngleAxis(
+				AsoUtility::Deg2RadF(axisDeg.y), AsoUtility::AXIS_Y));
+
+		// カメラの回転に合成
+		rot_ = rot_.Mult(rotPow);
+
+		// 注視点の相対座標を回転
+		VECTOR localRotPos = rot_.PosAxis({ 0,-100,500 });
+
+		// 注視点をワールド座標に変換
+		targetPos_ = VAdd(pos_, localRotPos);
+
+		// カメラの上方向
+		cameraUp_ = rot_.GetUp();
+		//cameraUp_ = AsoUtility::DIR_U;
+
+	}
+
+	if (!AsoUtility::EqualsVZero(moveDir))
+	{
+
+		// 押下された移動ボタンの方向に移動
+		VECTOR direction = VNorm(rot_.PosAxis(moveDir)); // 回転させる必要がある
+
+		// 移動量(方向 * スピード)
+		VECTOR movePow = VScale(direction, SPEED);
+
+		// 移動(座標 + 移動量)
+		// カメラ位置とカメラ注視点
+		pos_ = VAdd(pos_, movePow);
+		targetPos_ = VAdd(targetPos_, movePow);
+
+	}
+
 }

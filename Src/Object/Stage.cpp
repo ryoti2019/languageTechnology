@@ -114,7 +114,7 @@ void Stage::MakeMainStage(void)
 
 	planetTrans.Update();
 
-	NAME name = NAME::MAIN_PLANET;
+	NAME name = NAME::JSON_STAGE;
 	Planet* planet =
 		new Planet(
 			name, Planet::TYPE::GROUND, planetTrans);

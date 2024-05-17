@@ -29,6 +29,7 @@ void SaveLoadManager::Update(void)
 	{
 		Load();
 	}
+
 }
 void SaveLoadManager::Load(void)
 {
@@ -62,14 +63,14 @@ void SaveLoadManager::Load(void)
 
 void SaveLoadManager::Save(void)
 {
-	// プレイヤーのNullチェック
+	// ステージーのNullチェック
 	if (player_ == nullptr)
 	{
 		return;
 	}
 	// 外部ファイルの読み込み(書込み用)
 	std::ofstream ofs;
-	ofs.open(Application::PATH_JSON + FILE_NAME);
+	ofs.open(Application::PATH_JSON + "GameData.json");
 	// jsonオブジェクト(プレイヤー情報)
 	json playerData;
 	const auto& transform = player_->GetTransform();
@@ -97,6 +98,7 @@ void SaveLoadManager::Save(void)
 	// お行儀良く、明示的にファイルストリームを閉じる
 	ofs.close();
 }
+
 void SaveLoadManager::SetPlayer(std::shared_ptr<Player> player)
 {
 	player_ = player;

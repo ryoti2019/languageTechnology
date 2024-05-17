@@ -28,7 +28,8 @@ public:
 		FLAT_PLANET_FIXED02,
 		PLANET10,
 		LAST_STAGE,
-		SPECIAL_STAGE
+		SPECIAL_STAGE,
+		JSON_STAGE
 	};
 
 	// コンストラクタ
