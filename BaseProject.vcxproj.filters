@@ -405,5 +405,8 @@
   <ItemGroup>
     <FxCompile Include="Src\Shader\PostEffect\Monotone.hlsl" />
     <FxCompile Include="Src\Shader\PostEffect\ScanLine.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Distortion.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Noise.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Mosaic.hlsl" />
   </ItemGroup>
 </Project>

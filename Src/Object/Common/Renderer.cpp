@@ -78,7 +78,10 @@ void Renderer::Draw(void)
 	SetUsePixelShader(material_->shader_);
 
 	// テクスチャの設定
-	SetUseTextureToShader(0, mainScreen);
+	for (int i = 1; i < material_->textures_.size(); i++)
+	{
+		SetUseTextureToShader(i, material_->textures_[i]);
+	}
 
 	// 定数バッファ
 	FLOAT4* constBufs = (FLOAT4*)GetBufferShaderConstantBuffer(material_->constBuf_);
@@ -90,6 +93,7 @@ void Renderer::Draw(void)
 		constBufs->y = bufs.y;
 		constBufs->z = bufs.z;
 		constBufs->w = bufs.w;
+		constBufs++;
 	}
 
 	// 定数バッファを更新して書き込んだ内容を反映する
@@ -105,7 +109,10 @@ void Renderer::Draw(void)
 	//--------------------------------------------
 
 	// テクスチャ解除
-	SetUseTextureToShader(0, -1);
+	for (int i = 0; i < material_->textures_.size(); i++)
+	{
+		SetUseTextureToShader(i, material_->textures_[i]);
+	}
 
 	// ピクセルシェーダ解除
 	SetUsePixelShader(-1);

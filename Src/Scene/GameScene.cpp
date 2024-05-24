@@ -28,15 +28,6 @@ GameScene::GameScene(void)
 GameScene::~GameScene(void)
 {
 
-	DeleteGraph(postEffectScreenMono_);
-	DeleteGraph(postEffectScreenScan_);
-
-	DeleteShader(monoShader_);
-	DeleteShader(scanShader_);
-
-	DeleteShaderConstantBuffer(monoShaderConstBuf_);
-	DeleteShaderConstantBuffer(scanShaderConstBuf_);
-
 }
 
 void GameScene::Init(void)
@@ -69,49 +60,78 @@ void GameScene::Init(void)
 	std::weak_ptr<Camera> camera = SceneManager::GetInstance().GetCamera();
 	camera.lock().get()->SetFollow(&player_->GetTransform());
 	camera.lock().get()->ChangeMode(Camera::MODE::FOLLOW);
-	//SceneManager::GetInstance().GetCamera().lock().get().SetFollow(&player_->GetTransform());
-	//SceneManager::GetInstance().GetCamera()->ChangeMode(Camera::MODE::FOLLOW);
 
-	//// ポストエフェクト用スクリーン(モノトーン)
-	//postEffectScreenMono_ = MakeScreen(Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, true);
-
-	//// ピクセルシェーダのロード
-	//monoShader_ = LoadPixelShader((Application::PATH_SHADER + "Monotone.cso").c_str());
-
-	//// ピクセルシェーダ用の定数バッファを作成
-	//monoShaderConstBuf_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * 3);
-
+	// モノクロ
 	std::vector<FLOAT4> constBufsPtr1;
 	constBufsPtr1.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
 
-	// グレースケール
-	monoMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "Monotone.cso"),sizeof(FLOAT4) * 1, constBufsPtr1);
-	
+	// モノクロテクスチャ
+	std::vector<int> textures1;
+	textures1.push_back(SceneManager::GetInstance().GetMainScreen());
+
+	// モノマテリアル
+	monoMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "Monotone.cso"), sizeof(FLOAT4) * 1, constBufsPtr1, textures1);
+
 	// モノレンダラー
 	monoRenderer_ = std::make_unique<Renderer>(monoMaterial_);
 
+	// 走査線
 	std::vector<FLOAT4> constBufsPtr2;
 	constBufsPtr2.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
 
-	// 走査線
-	scanMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "ScanLine.cso"), sizeof(FLOAT4) * 1, constBufsPtr2);
+	// 走査線テクスチャ
+	std::vector<int>textures2;
+	textures2.push_back(SceneManager::GetInstance().GetMainScreen());
+
+	// 走査線マテリアル
+	scanMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "ScanLine.cso"), sizeof(FLOAT4) * 1, constBufsPtr2, textures2);
 
 	// 走査線レンダラー
 	scanRenderer_ = std::make_unique<Renderer>(scanMaterial_);
 
-	//rendererManager_ = std::make_unique<RendererManager>();
+	// 歪み
+	std::vector<FLOAT4> constBufsPtr3;
+	constBufsPtr3.push_back({ 1.0f, 128.0f, 128.0f, 10.0f });
 
-	//rendererManager_->Add((Application::PATH_SHADER + "Monotone.cso"), sizeof(FLOAT4) * 1, 1);
-	//rendererManager_->Add((Application::PATH_SHADER + "ScanLine.cso"), sizeof(FLOAT4) * 1, 1);
+	// 歪みテクスチャ
+	std::vector<int> textures3;
+	textures3.push_back(SceneManager::GetInstance().GetMainScreen());
+	textures3.push_back(LoadGraph("Data/Image/Noise128.png"));
 
-	// ポストエフェクト用スクリーン(走査線)
-	//postEffectScreenScan_ = MakeScreen(Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, true);
+	// 歪みマテリアル
+	distortionMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "Distortion.cso"), sizeof(FLOAT4) * 1, constBufsPtr3, textures3);
 
-	// ピクセルシェーダのロード
-	//scanShader_ = LoadPixelShader((Application::PATH_SHADER + "ScanLine.cso").c_str());
+	// 歪みレンダラー
+	distortionRenderer_ = std::make_unique<Renderer>(distortionMaterial_);
 
-	// ピクセルシェーダ用の定数バッファを作成
-	//scanShaderConstBuf_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * 1);
+	// ノイズ
+	std::vector<FLOAT4> constBufsPtr4;
+	constBufsPtr4.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+
+	// ノイズテクスチャ
+	std::vector<int> textures4;
+	textures4.push_back(SceneManager::GetInstance().GetMainScreen());
+
+	// ノイズ
+	noiseMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "Noise.cso"), sizeof(FLOAT4) * 1, constBufsPtr4, textures4);
+
+	// ノイズレンダラー
+	noiseRenderer_ = std::make_unique<Renderer>(noiseMaterial_);
+
+	// モザイク
+	std::vector<FLOAT4> constBufsPtr5;
+	constBufsPtr5.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+	constBufsPtr5.push_back({ 1024.0f, 640.0f, 10.0f, 0.0f });
+
+	// モザイクテクスチャ
+	std::vector<int> textures5;
+	textures5.push_back(SceneManager::GetInstance().GetMainScreen());
+
+	// モザイク
+	mosaicMaterial_ = std::make_unique<Material>((Application::PATH_SHADER + "Mosaic.cso"), sizeof(FLOAT4) * 2, constBufsPtr5, textures5);
+
+	// モザイクレンダラー
+	mosaicRenderer_ = std::make_unique<Renderer>(mosaicMaterial_);
 
 }
 
@@ -142,7 +162,7 @@ void GameScene::Draw(void)
 	skyDome_->Draw();
 	stage_->Draw();
 	unityStage_->Draw();
-	
+
 	player_->Draw();
 
 	enemyManager_->Draw();
@@ -154,11 +174,22 @@ void GameScene::Draw(void)
 	DrawFormatString(840, 80, 0x000000, "ジャンプ：＼(バクスラ)");
 
 	// モノシェーダ
-  	monoRenderer_->Draw();
+	monoRenderer_->Draw();
 
 	// 走査線シェーダ
-	deltaTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	deltaTime_ += SceneManager::GetInstance().GetDeltaTime();
 	scanRenderer_->SetConstBufs({ deltaTime_ / 10,0.0f,0.0f,0.0f }, 0);
 	scanRenderer_->Draw();
+
+	// 歪みレンダラー
+	//distortionRenderer_->SetConstBufs({ deltaTime_ / 10,0.0f,0.0f,0.0f }, 0);
+	//distortionRenderer_->Draw();
+
+	// ノイズレンダラー
+	noiseRenderer_->SetConstBufs({ deltaTime_ / 10,0.0f,0.0f,0.0f }, 0);
+	noiseRenderer_->Draw();
+
+	// モザイクレンダラー
+	//mosaicRenderer_->Draw();
 
 }

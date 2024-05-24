@@ -28,18 +28,6 @@ public:
 
 private:
 
-	// ピクセルシェーダ用のオリジナル定数バッファの使用開始スロット
-	static constexpr int CONSTANT_BUF_SLOT_BEGIN_PS = 4;
-
-	// 頂点数
-	static constexpr int NUM_VERTEX = 4;
-
-	// 頂点インデックス
-	static constexpr int NUM_VERTEX_IDX = 6;
-
-	//ポリゴン数
-	static constexpr int NUM_POLYGON = 2;
-
 	// ステージ
 	std::shared_ptr<Stage> stage_;
 
@@ -73,34 +61,26 @@ private:
 	// 走査線レンダラー
 	std::unique_ptr<Renderer> scanRenderer_;
 
-	// ポストエフェクト用スクリーン(モノクロ)
-	int postEffectScreenMono_;
+	// 歪みマテリアル
+	std::shared_ptr<Material> distortionMaterial_;
 
-	// シェーダハンドル
-	int monoShader_;
+	// 歪みレンダラー
+	std::unique_ptr<Renderer> distortionRenderer_;
 
-	// 定数バッファハンドル
-	int monoShaderConstBuf_;
+	// ノイズマテリアル
+	std::shared_ptr<Material> noiseMaterial_;
 
-	// ポストエフェクト用スクリーン(モノクロ)
-	//------------------------------------------
-	int postEffectScreenScan_;
+	// ノイズレンダラー
+	std::unique_ptr<Renderer> noiseRenderer_;
 
-	// シェーダハンドル
-	int scanShader_;
+	// モザイクマテリアル
+	std::shared_ptr<Material> mosaicMaterial_;
 
-	// 定数バッファハンドル
-	int scanShaderConstBuf_;
+	// モザイクレンダラー
+	std::unique_ptr<Renderer> mosaicRenderer_;
 
-	// セピアカラー
-	int sepiaColorConstBuf_;
-
+	// デルタタイム
 	float deltaTime_;
 
-	// 頂点
-	VERTEX2DSHADER vertexs_[NUM_VERTEX];
-
-	// 頂点インデックス
-	WORD indexes_[NUM_VERTEX_IDX];
 
 };

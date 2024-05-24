@@ -22,7 +22,7 @@ public:
 	/// </summary>
 	/// <param name="shaderFileName"></param>
 	/// <param name="constBufFloat4Size"></param>
-	Material(std::string shaderFileName, int constBufFloat4Size, std::vector<FLOAT4> constBufs);
+	Material(std::string shaderFileName, int constBufFloat4Size, std::vector<FLOAT4> constBufs, std::vector<int> textures);
 
 	// シェーダハンドル
 	int shader_;
