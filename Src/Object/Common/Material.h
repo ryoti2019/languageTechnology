@@ -2,6 +2,7 @@
 #include<DxLib.h>
 #include<vector>
 #include<string>
+#include<map>
 
 class Material
 {
@@ -22,7 +23,7 @@ public:
 	/// </summary>
 	/// <param name="shaderFileName"></param>
 	/// <param name="constBufFloat4Size"></param>
-	Material(std::string shaderFileName, int constBufFloat4Size, std::vector<FLOAT4> constBufs, std::vector<int> textures);
+	Material(std::string shaderFileName, int constBufFloat4Size, std::vector<FLOAT4> constBufs, std::map<int, int> textures);
 
 	// シェーダハンドル
 	int shader_;
@@ -40,7 +41,7 @@ public:
 	std::vector<FLOAT4> constBufs_;
 
 	// 画像
-	std::vector<int> textures_;
+	std::map<int, int> textures_;
 
 private:
 };

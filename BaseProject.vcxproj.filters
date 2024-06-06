@@ -156,6 +156,12 @@
     <ClCompile Include="Src\Object\Common\Renderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Object\Common\ModelRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Object\Common\ModelMaterial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Common\Fader.h">
@@ -392,6 +398,12 @@
     <ClInclude Include="Src\Object\Common\Renderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Object\Common\ModelRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Object\Common\ModelMaterial.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Shader\Common\VertexToPixelHeader.hlsli" />
@@ -408,5 +420,7 @@
     <FxCompile Include="Src\Shader\PostEffect\Distortion.hlsl" />
     <FxCompile Include="Src\Shader\PostEffect\Noise.hlsl" />
     <FxCompile Include="Src\Shader\PostEffect\Mosaic.hlsl" />
+    <FxCompile Include="Src\Shader\Model\StdModelPS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\StdModelVS.hlsl" />
   </ItemGroup>
 </Project>

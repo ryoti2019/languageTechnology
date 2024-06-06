@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="Src\Object\Common\Material.cpp" />
     <ClCompile Include="Src\Manager\SaveLoadManager.cpp" />
+    <ClCompile Include="Src\Object\Common\ModelMaterial.cpp" />
+    <ClCompile Include="Src\Object\Common\ModelRenderer.cpp" />
     <ClCompile Include="Src\Object\Common\Renderer.cpp" />
     <ClCompile Include="Src\Object\Common\RendererManager.cpp" />
     <ClCompile Include="Src\Object\Enemy\Enemy.cpp" />
@@ -115,6 +117,8 @@
     <ClInclude Include="Src\Object\Common\Capsule.h" />
     <ClInclude Include="Src\Object\Common\Collider.h" />
     <ClInclude Include="Src\Object\Common\Material.h" />
+    <ClInclude Include="Src\Object\Common\ModelMaterial.h" />
+    <ClInclude Include="Src\Object\Common\ModelRenderer.h" />
     <ClInclude Include="Src\Object\Common\Renderer.h" />
     <ClInclude Include="Src\Object\Common\RendererManager.h" />
     <ClInclude Include="Src\Object\Common\SpeechBalloon.h" />
@@ -143,6 +147,22 @@
     <None Include="Src\Shader\Common\Vertex\VertexShader3DHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Src\Shader\Model\StdModelPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Src\Shader\Model\StdModelVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="Src\Shader\PostEffect\Monotone.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

@@ -1,6 +1,12 @@
 #include <DxLib.h>
 #include "../Manager/ResourceManager.h"
+#include "../Manager/SceneManager.h"
 #include "Common/Transform.h"
+#include "../Application.h"
+#include "../Object/Common/Renderer.h"
+#include "../Object/Common/Material.h"
+#include "../Object/Common/ModelMaterial.h"
+#include "../Object/Common/Renderer.h"
 #include "Player.h"
 #include "WarpStar.h"
 
@@ -23,6 +29,17 @@ void WarpStar::Init(void)
 			ResourceManager::SRC::WARP_STAR)
 	);
 	transform_.Update();
+
+	// ƒ‚ƒfƒ‹•`‰æ—p
+	std::vector<FLOAT4> constBufsPtr1;
+	//constBufsPtr1.push_back({ 0.0f, 0.0f, 0.0f, 0.0f });
+	std::map<int, int> textures;
+	modelMaterial_ = std::make_shared<ModelMaterial>(
+		(Application::PATH_SHADER + "StdModelVS.cso"), sizeof(FLOAT4) * 1, constBufsPtr1,
+		(Application::PATH_SHADER + "StdModelPS.cso"), sizeof(FLOAT4) * 1, constBufsPtr1, textures
+	);
+
+	renderer_ = std::make_shared<Renderer>(transform_.modelId, modelMaterial_);
 
 	ChangeState(STATE::IDLE);
 
@@ -52,7 +69,8 @@ void WarpStar::Update(void)
 
 void WarpStar::Draw(void)
 {
-	MV1DrawModel(transform_.modelId);
+	//MV1DrawModel(transform_.modelId);
+	renderer_->Draw();
 }
 
 void WarpStar::ChangeState(STATE state)

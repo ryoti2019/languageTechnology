@@ -3,6 +3,8 @@
 #include "Common/Transform.h"
 #include "ActorBase.h"
 class Player;
+class ModelMaterial;
+class Renderer;
 
 class WarpStar : public ActorBase
 {
@@ -48,6 +50,9 @@ public:
 	void Draw(void) override;
 
 private:
+
+	std::shared_ptr<ModelMaterial> modelMaterial_;
+	std::shared_ptr<Renderer> renderer_;
 
 	// ƒvƒŒƒCƒ„[
 	Player& player_;
