@@ -9,6 +9,9 @@
 #include "../Object/Common/Collider.h"
 #include "../Object/SkyDome.h"
 #include "../Object/Stage.h"
+#include "../Object/Metal.h"
+#include "../Object/Moon.h"
+#include "../Object/Water.h"
 #include "../Object/Player.h"
 #include "../Object/Planet.h"
 #include "../Object/UnityStage.h"
@@ -56,6 +59,18 @@ void GameScene::Init(void)
 
 	unityStage_ = std::make_unique<UnityStage>();
 	unityStage_->Load();
+
+	// メタル
+	metal_ = std::make_unique<Metal>();
+	metal_->Init();
+
+	// 月
+	moon_ = std::make_unique<Moon>();
+	moon_->Init();
+
+	// 水
+	water_ = std::make_unique<Water>();
+	water_->Init();
 
 	std::weak_ptr<Camera> camera = SceneManager::GetInstance().GetCamera();
 	camera.lock().get()->SetFollow(&player_->GetTransform());
@@ -153,6 +168,12 @@ void GameScene::Update(void)
 
 	saveLoadManager_->Update();
 
+	metal_->Update();
+
+	moon_->Update();
+
+	water_->Update();
+
 }
 
 void GameScene::Draw(void)
@@ -165,7 +186,16 @@ void GameScene::Draw(void)
 
 	player_->Draw();
 
+	// 半透明
+	stage_->DrawTranslucent();
+
 	enemyManager_->Draw();
+
+	metal_->Draw();
+
+	moon_->Draw();
+
+	water_->Draw();
 
 	// ヘルプ
 	DrawFormatString(840, 20, 0x000000, "移動　　：WASD");

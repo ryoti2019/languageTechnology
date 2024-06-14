@@ -41,6 +41,8 @@ public:
 	void Init(void);
 	void Update(void);
 	void Draw(void);
+	void DrawTranslucent(void);
+
 
 	// ステージ変更
 	void ChangeStage(NAME type);

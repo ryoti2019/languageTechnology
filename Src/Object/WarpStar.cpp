@@ -31,12 +31,14 @@ void WarpStar::Init(void)
 	transform_.Update();
 
 	// ƒ‚ƒfƒ‹•`‰æ—p
-	std::vector<FLOAT4> constBufsPtr1;
-	//constBufsPtr1.push_back({ 0.0f, 0.0f, 0.0f, 0.0f });
+	std::vector<FLOAT4> constBufsPtrPS;
+	constBufsPtrPS.push_back({ 1.0f, 0.0f, 0.0f, 0.6f });
+	std::vector<FLOAT4> constBufsPtrVS;
+	constBufsPtrVS.push_back({ 1.0f, 0.0f, 0.0f, 0.6f });
 	std::map<int, int> textures;
 	modelMaterial_ = std::make_shared<ModelMaterial>(
-		(Application::PATH_SHADER + "StdModelVS.cso"), sizeof(FLOAT4) * 1, constBufsPtr1,
-		(Application::PATH_SHADER + "StdModelPS.cso"), sizeof(FLOAT4) * 1, constBufsPtr1, textures
+		(Application::PATH_SHADER + "NoTexModelVS.cso"), sizeof(FLOAT4) * 1, constBufsPtrPS,
+		(Application::PATH_SHADER + "NoTexModelPS.cso"), sizeof(FLOAT4) * 1, constBufsPtrVS, textures
 	);
 
 	renderer_ = std::make_shared<Renderer>(transform_.modelId, modelMaterial_);

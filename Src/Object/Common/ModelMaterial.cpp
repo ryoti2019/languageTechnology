@@ -61,7 +61,7 @@ std::vector<FLOAT4> ModelMaterial::GetConstBufsPS(void)
 
 void ModelMaterial::SetConstBufsVS(FLOAT4 constBufs, int idx)
 {
-	if (idx >= constBufsVS_.size())
+	if (idx > constBufsVS_.size())
 	{
 		return;
 	}
@@ -70,7 +70,7 @@ void ModelMaterial::SetConstBufsVS(FLOAT4 constBufs, int idx)
 
 void ModelMaterial::SetConstBufsPS(FLOAT4 constBufs, int idx)
 {
-	if (idx >= constBufsPS_.size())
+	if (idx > constBufsPS_.size())
 	{
 		return;
 	}

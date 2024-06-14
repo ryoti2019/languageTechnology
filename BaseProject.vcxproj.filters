@@ -162,6 +162,15 @@
     <ClCompile Include="Src\Object\Common\ModelMaterial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Object\Metal.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Object\Moon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Object\Water.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Common\Fader.h">
@@ -404,6 +413,15 @@
     <ClInclude Include="Src\Object\Common\ModelMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Object\Metal.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Object\Moon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Object\Water.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Shader\Common\VertexToPixelHeader.hlsli" />
@@ -422,5 +440,13 @@
     <FxCompile Include="Src\Shader\PostEffect\Mosaic.hlsl" />
     <FxCompile Include="Src\Shader\Model\StdModelPS.hlsl" />
     <FxCompile Include="Src\Shader\Model\StdModelVS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\NoTexModelPS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\NoTexModelVS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\MetalModelPS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\MetalModelVS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\RimModelPS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\RimModelVS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\WaterWaveModelPS.hlsl" />
+    <FxCompile Include="Src\Shader\Model\WaterWaveModelVS.hlsl" />
   </ItemGroup>
 </Project>

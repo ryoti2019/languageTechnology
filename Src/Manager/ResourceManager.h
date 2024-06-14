@@ -39,6 +39,10 @@ public:
 		TANK_BODY,
 		TANK_BARREL,
 		TANK_WHEEL,
+		MOON,
+		SHIELD,
+		AXE,
+		WATER,
 	};
 
 	// 明示的にインステンスを生成する

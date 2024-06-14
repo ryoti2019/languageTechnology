@@ -139,6 +139,22 @@ void ResourceManager::Init(void)
 	res = new RES(RES_T::MODEL, PATH_MDL + "Tank/Barrel.mv1");
 	resourcesMap_.emplace(SRC::TANK_BARREL, res);
 
+	// åé
+	res = new RES(RES_T::MODEL, PATH_MDL + "Moon/Moon.mv1");
+	resourcesMap_.emplace(SRC::MOON, std::move(res));
+
+	// èÇ
+	res = new RES(RES_T::MODEL, PATH_MDL + "Metal/Shield.mv1");
+	resourcesMap_.emplace(SRC::SHIELD, std::move(res));
+
+	// ïÄ
+	res = new RES(RES_T::MODEL, PATH_MDL + "Metal/Axe.mv1");
+	resourcesMap_.emplace(SRC::AXE, std::move(res));
+
+	// êÖ
+	res = new RES(RES_T::MODEL, PATH_MDL + "Water/WaterWaveCube.mv1");
+	resourcesMap_.emplace(SRC::WATER, std::move(res));
+
 }
 
 void ResourceManager::Release(void)

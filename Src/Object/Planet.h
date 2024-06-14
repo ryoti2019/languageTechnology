@@ -2,6 +2,8 @@
 #include "../Common/Quaternion.h"
 #include "ActorBase.h"
 #include "Stage.h"
+class ModelMaterial;
+class Renderer;
 
 class Planet : public ActorBase
 {
@@ -67,6 +69,9 @@ public:
 	void SetDeadLength(float len);
 
 private:
+
+	std::shared_ptr<ModelMaterial> modelMaterial_;
+	std::shared_ptr<Renderer> renderer_;
 
 	// ˜f¯í•Ê
 	TYPE type_;

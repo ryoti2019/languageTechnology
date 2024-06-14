@@ -1,7 +1,10 @@
 #include <DxLib.h>
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
+#include "../Application.h"
 #include "Common/Transform.h"
+#include "Common/Renderer.h"
+#include "../Object/Common/ModelMaterial.h"
 #include "WarpStar.h"
 #include "Planet.h"
 
@@ -27,6 +30,24 @@ void Planet::Init(void)
 	gravityPow_ = DEFAULT_GRAVITY_POW;
 	gravityRadius_ = DEFAULT_GRAVITY_RADIUS;
 	deadLength_ = DEFAULT_DEAD_LENGTH;
+
+	// モデル描画用
+	std::vector<FLOAT4> constBufsPtrVS;
+	constBufsPtrVS.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+	std::vector<FLOAT4> constBufsPtrPS;
+	constBufsPtrPS.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+	// 光の向いている方向(ワールド空間)(ディレクショナルライト)
+	auto lDir = GetLightDirection();
+	constBufsPtrPS.push_back({ lDir.x,lDir.y,lDir.z,0.0f });
+	constBufsPtrPS.push_back({ 0.2f,0.2f,0.2f,1.0f });
+	std::map<int, int> textures;
+	modelMaterial_ = std::make_shared<ModelMaterial>(
+		(Application::PATH_SHADER + "StdModelVS.cso"), sizeof(FLOAT4) * 1, constBufsPtrVS,
+		(Application::PATH_SHADER + "StdModelPS.cso"), sizeof(FLOAT4) * 3, constBufsPtrPS, textures
+	);
+
+	renderer_ = std::make_shared<Renderer>(transform_.modelId, modelMaterial_);
+
 }
 
 void Planet::Update(void)
@@ -35,7 +56,8 @@ void Planet::Update(void)
 
 void Planet::Draw(void)
 {
-    MV1DrawModel(transform_.modelId);
+    //MV1DrawModel(transform_.modelId);
+	renderer_->Draw();
 }
 
 void Planet::SetPosition(const VECTOR& pos)

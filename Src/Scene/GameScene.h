@@ -3,6 +3,9 @@
 #include "SceneBase.h"
 class Stage;
 class SkyDome;
+class Metal;
+class Moon;
+class Water;
 class Player;
 class EnemyManager;
 class SaveLoadManager;
@@ -33,6 +36,15 @@ private:
 
 	// スカイドーム
 	std::unique_ptr<SkyDome> skyDome_;
+
+	// 金属
+	std::shared_ptr<Metal> metal_;
+
+	// 月
+	std::shared_ptr<Moon> moon_;
+
+	// 水
+	std::shared_ptr<Water> water_;
 
 	// プレイヤー
 	std::shared_ptr<Player> player_;

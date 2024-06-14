@@ -4,6 +4,7 @@
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
+#include "../Application.h"
 #include "WarpStar.h"
 #include "Player.h"
 #include "Planet.h"
@@ -56,12 +57,6 @@ void Stage::Update(void)
 
 void Stage::Draw(void)
 {
-
-	// ワープスター
-	for (const auto& s : warpStars_)
-	{
-		s->Draw();
-	}
 
 	// 惑星
 	for (const auto& s : planets_)
@@ -145,4 +140,13 @@ void Stage::MakeWarpStar(void)
 	warpStars_.push_back(std::move(star));
 	//------------------------------------------------------------------------------
 
+}
+
+void Stage::DrawTranslucent(void)
+{
+	// ワープスター
+	for (const auto& s : warpStars_)
+	{
+		s->Draw();
+	}
 }
