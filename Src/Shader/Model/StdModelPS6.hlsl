@@ -23,7 +23,7 @@ float4 main(PS_INPUT PSInput) : SV_TARGET
     
     // テクスチャーの色を取得
     color = diffuseMapTexture.Sample(diffuseMapSampler, PSInput.uv);
-    if(color.a < 0.01f)
+    if (color.a < 0.01f)
     {
         discard;
     }

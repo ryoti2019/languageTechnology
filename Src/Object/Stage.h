@@ -72,6 +72,9 @@ private:
 
 	float step_;
 
+	// ライトエフェクトのハンドルID
+	int lightResId_;
+
 	// 最初の惑星
 	void MakeMainStage(void);
 

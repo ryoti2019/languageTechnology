@@ -5,6 +5,8 @@
 class AnimationController;
 class Collider;
 class Capsule;
+class ModelMaterial;
+class Renderer;
 
 class Player : public ActorBase
 {
@@ -73,6 +75,9 @@ private:
 	// アニメーション
 	std::unique_ptr<AnimationController> animationController_;
 
+	std::shared_ptr<ModelMaterial> modelMaterial_;
+	std::shared_ptr<Renderer> renderer_;
+
 	// 状態管理
 	STATE state_;
 
@@ -112,6 +117,9 @@ private:
 
 	// 丸影
 	int imgShadow_;
+
+	// トゥーンマップ
+	int imgToonMap_;
 
 	void InitAnimation(void);
 

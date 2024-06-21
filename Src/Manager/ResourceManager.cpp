@@ -155,6 +155,22 @@ void ResourceManager::Init(void)
 	res = new RES(RES_T::MODEL, PATH_MDL + "Water/WaterWaveCube.mv1");
 	resourcesMap_.emplace(SRC::WATER, std::move(res));
 
+	// ライト
+	res = new RES(RES_T::EFFEKSEER, PATH_EFF + "Light/Light.efkefc");
+	resourcesMap_.emplace(SRC::EFF_LIGHT, res);
+
+	// トゥーン用マップテクスチャ
+	res = new RES(RES_T::IMG, PATH_MDL + "Player/ToonMap.png");
+	resourcesMap_.emplace(SRC::TEX_TOON, res);
+
+	// ゲート
+	res = new RES(RES_T::MODEL, PATH_MDL + "Gate/Gate.mv1");
+	resourcesMap_.emplace(SRC::GATE, res);
+
+	// ゲートミスト
+	res = new RES(RES_T::MODEL, PATH_MDL + "Gate/GateMist.mv1");
+	resourcesMap_.emplace(SRC::GATE_MIST, res);
+
 }
 
 void ResourceManager::Release(void)

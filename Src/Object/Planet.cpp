@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
+#include "../Manager/Camera.h"
 #include "../Application.h"
 #include "Common/Transform.h"
 #include "Common/Renderer.h"
@@ -33,7 +34,20 @@ void Planet::Init(void)
 
 	// モデル描画用
 	std::vector<FLOAT4> constBufsPtrVS;
-	constBufsPtrVS.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+	// カメラ座標
+	auto camera = SceneManager::GetInstance().GetCamera();
+	auto cameraPos = camera.lock()->GetPos();
+	constBufsPtrVS.push_back({ cameraPos.x,cameraPos.y,cameraPos.z,0.0f });
+	// フォグ開始・終了距離
+	float start = 0.0f;
+	float end = 0.0f;
+	GetFogStartEnd(&start, &end);
+	constBufsPtrVS.push_back({ start,end,0.0f,0.0f });
+
+	// ポイントライト座標
+	auto& pointLightPos = SceneManager::GetInstance().GetPointLight();
+	constBufsPtrVS.push_back({ pointLightPos.x,pointLightPos.y, pointLightPos.z, 0.0f });
+
 	std::vector<FLOAT4> constBufsPtrPS;
 	constBufsPtrPS.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
 	// 光の向いている方向(ワールド空間)(ディレクショナルライト)
@@ -42,7 +56,7 @@ void Planet::Init(void)
 	constBufsPtrPS.push_back({ 0.2f,0.2f,0.2f,1.0f });
 	std::map<int, int> textures;
 	modelMaterial_ = std::make_shared<ModelMaterial>(
-		(Application::PATH_SHADER + "StdModelVS.cso"), sizeof(FLOAT4) * 1, constBufsPtrVS,
+		(Application::PATH_SHADER + "StdModelVS.cso"), sizeof(FLOAT4) * (2 + 1), constBufsPtrVS,
 		(Application::PATH_SHADER + "StdModelPS.cso"), sizeof(FLOAT4) * 3, constBufsPtrPS, textures
 	);
 
@@ -56,7 +70,10 @@ void Planet::Update(void)
 
 void Planet::Draw(void)
 {
-    //MV1DrawModel(transform_.modelId);
+	// カメラ座標
+	auto camera = SceneManager::GetInstance().GetCamera();
+	auto cameraPos = camera.lock()->GetPos();
+	modelMaterial_->SetConstBufsVS({ cameraPos.x,cameraPos.y,cameraPos.z,0.0f }, 0);
 	renderer_->Draw();
 }
 

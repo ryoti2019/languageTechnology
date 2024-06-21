@@ -6,6 +6,7 @@ class SkyDome;
 class Metal;
 class Moon;
 class Water;
+class Gate;
 class Player;
 class EnemyManager;
 class SaveLoadManager;
@@ -45,6 +46,9 @@ private:
 
 	// 水
 	std::shared_ptr<Water> water_;
+
+	// ゲート
+	std::shared_ptr<Gate> gate_;
 
 	// プレイヤー
 	std::shared_ptr<Player> player_;

@@ -1,6 +1,7 @@
 #include <vector>
 #include <map>
 #include <DxLib.h>
+#include <EffekseerForDXLib.h>
 #include "../Utility/AsoUtility.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
@@ -116,6 +117,16 @@ void Stage::MakeMainStage(void)
 	planet->Init();
 	planets_.emplace(name, planet);
 	//------------------------------------------------------------------------------
+
+	// ライトエフェクト
+	lightResId_ = resMng_.Load(ResourceManager::SRC::EFF_LIGHT).handleId_;
+
+	// ポイントライトとして再生
+	const auto& pointLight = SceneManager::GetInstance().GetPointLight();
+	int playId = PlayEffekseer3DEffect(lightResId_);
+	const float SCL = 10.0f;
+	SetScalePlayingEffekseer3DEffect(playId, SCL, SCL, SCL);
+	SetPosPlayingEffekseer3DEffect(playId, pointLight.x, pointLight.y, pointLight.z);
 
 }
 

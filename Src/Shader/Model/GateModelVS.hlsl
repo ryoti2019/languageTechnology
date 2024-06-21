@@ -2,25 +2,10 @@
 #include "../Common/VertexToPixelHeader.hlsli"
 // IN
 #include "../Common/Vertex/VertexInputType.hlsli"
-#define VERTEX_INPUT DX_MV1_VERTEX_TYPE_NMAP_1FRAME
+#define VERTEX_INPUT DX_MV1_VERTEX_TYPE_NMAP_8FRAME
 // OUT
 #define VS_OUTPUT VertexToPixelLitFog
 #include "../Common/Vertex/VertexShader3DHeader.hlsli"
-
-// 定数バッファ:スロット7番目
-cbuffer cbParam : register(b7)
-{
-    float3 g_camera_pos;
-    float dummy1;
-    
-    float g_fog_start;
-    float g_fog_end;
-    float dummy2;
-    float dummy3;
-    
-    float3 g_light_pos;
-    float dummy4;
-}
 
 VS_OUTPUT main(VS_INPUT VSInput)
 {
@@ -69,18 +54,7 @@ VS_OUTPUT main(VS_INPUT VSInput)
     // ライトから見た座標
     ret.lightAtPos = float3(0.0f, 0.0f, 0.0f);
     
-    // フォグの強さ(0.0:フォグが濃い、1.0:フォグが薄い)
-    ret.fogFactor = (g_fog_end - length(lWorldPosition.xyz - g_camera_pos)) / (g_fog_end - g_fog_start);
-    ret.fogFactor = clamp(ret.fogFactor, 0.0f, 1.0f);
-    
-    float lightDis = 700.0f;
-    
-    // ライトの強さ
-    ret.lightPower = (lightDis - length(lWorldPosition.xyz - g_light_pos)) / (lightDis - g_fog_start);
-    ret.lightPower = clamp(ret.lightPower, 0.0f, 1.0f);
-    
     // その他、ピクセルシェーダへ引継&初期化 ++++++++++++( 終了 )
-    
     // 出力パラメータを返す
     return ret;
 }

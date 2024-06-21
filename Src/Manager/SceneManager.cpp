@@ -81,7 +81,10 @@ void SceneManager::Init3D(void)
 	// フォグ設定
 	SetFogEnable(true);
 	SetFogColor(5, 5, 5);
-	SetFogStartEnd(10000.0f, 20000.0f);
+	SetFogStartEnd(100.0f, 2000.0f);
+
+	// ポイントライト
+	pointLight_ = VGet(1500.0f, 250.0f, 500.0f);
 
 }
 
@@ -186,6 +189,11 @@ std::weak_ptr<Camera> SceneManager::GetCamera(void) const
 int SceneManager::GetMainScreen()
 {
 	return mainScreen_;
+}
+
+const VECTOR& SceneManager::GetPointLight(void) const
+{
+	return pointLight_;
 }
 
 SceneManager::SceneManager(void)

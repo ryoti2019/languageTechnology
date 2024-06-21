@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
 #include <memory>
+#include <DxLib.h>
 
 class SceneBase;
 class Fader;
@@ -47,6 +48,9 @@ public:
 
 	int GetMainScreen();
 
+	// ポイントライトの座標
+	const VECTOR& GetPointLight(void)const;
+
 private:
 
 	// 静的インスタンス
@@ -73,6 +77,9 @@ private:
 	
 	int mainScreen_;
 
+	// ポイントライトの座標
+	VECTOR pointLight_;
+		
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする
 	SceneManager(void);

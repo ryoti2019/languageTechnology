@@ -43,6 +43,10 @@ public:
 		SHIELD,
 		AXE,
 		WATER,
+		EFF_LIGHT,
+		TEX_TOON,
+		GATE,
+		GATE_MIST,
 	};
 
 	// 明示的にインステンスを生成する

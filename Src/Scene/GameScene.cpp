@@ -12,6 +12,7 @@
 #include "../Object/Metal.h"
 #include "../Object/Moon.h"
 #include "../Object/Water.h"
+#include "../Object/Gate.h"
 #include "../Object/Player.h"
 #include "../Object/Planet.h"
 #include "../Object/UnityStage.h"
@@ -71,6 +72,10 @@ void GameScene::Init(void)
 	// 水
 	water_ = std::make_unique<Water>();
 	water_->Init();
+
+	// ゲート
+	gate_ = std::make_unique<Gate>();
+	gate_->Init();
 
 	std::weak_ptr<Camera> camera = SceneManager::GetInstance().GetCamera();
 	camera.lock().get()->SetFollow(&player_->GetTransform());
@@ -174,6 +179,8 @@ void GameScene::Update(void)
 
 	water_->Update();
 
+	gate_->Update();
+
 }
 
 void GameScene::Draw(void)
@@ -197,11 +204,19 @@ void GameScene::Draw(void)
 
 	water_->Draw();
 
+	gate_->Draw();
+
 	// ヘルプ
 	DrawFormatString(840, 20, 0x000000, "移動　　：WASD");
 	DrawFormatString(840, 40, 0x000000, "カメラ　：矢印キー");
 	DrawFormatString(840, 60, 0x000000, "ダッシュ：右Shift");
 	DrawFormatString(840, 80, 0x000000, "ジャンプ：＼(バクスラ)");
+
+	// カメラ座標
+	auto camera = SceneManager::GetInstance().GetCamera();
+	auto cameraPos = camera.lock()->GetPos();
+	DrawFormatString(20, 20, 0xffffff,
+		"カメラ位置(%.2f,%.2f,%.2f)", cameraPos.x, cameraPos.y, cameraPos.z);
 
 	//deltaTime_ += SceneManager::GetInstance().GetDeltaTime();
 

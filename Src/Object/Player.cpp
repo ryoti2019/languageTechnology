@@ -9,6 +9,8 @@
 #include "Common/Capsule.h"
 #include "Common/Collider.h"
 #include "Common/TestRenderer.h"
+#include "Common/Renderer.h"
+#include "../Object/Common/ModelMaterial.h"
 #include "Planet.h"
 #include "Player.h"
 
@@ -73,6 +75,40 @@ void Player::Init(void)
 	// 丸影画像
 	imgShadow_ = resMng_.Load(ResourceManager::SRC::PLAYER_SHADOW).handleId_;
 
+	// トゥーン画像
+	imgToonMap_ = resMng_.Load(ResourceManager::SRC::TEX_TOON).handleId_;
+
+	// モデル描画用
+	std::vector<FLOAT4> constBufsPtrVS;
+	// カメラ座標
+	auto camera = SceneManager::GetInstance().GetCamera();
+	auto cameraPos = camera.lock()->GetPos();
+	constBufsPtrVS.push_back({ cameraPos.x,cameraPos.y,cameraPos.z,0.0f });
+	// フォグ開始・終了距離
+	float start = 0.0f;
+	float end = 0.0f;
+	GetFogStartEnd(&start, &end);
+	constBufsPtrVS.push_back({ start,end,0.0f,0.0f });
+
+	// ポイントライト座標
+	auto& pointLightPos = SceneManager::GetInstance().GetPointLight();
+	constBufsPtrVS.push_back({ pointLightPos.x,pointLightPos.y, pointLightPos.z, 0.0f });
+
+	std::vector<FLOAT4> constBufsPtrPS;
+	constBufsPtrPS.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+	// 光の向いている方向(ワールド空間)(ディレクショナルライト)
+	auto lDir = GetLightDirection();
+	constBufsPtrPS.push_back({ lDir.x,lDir.y,lDir.z,0.0f });
+	constBufsPtrPS.push_back({ 0.2f,0.2f,0.2f,1.0f });
+	std::map<int, int> textures;
+	textures.emplace(3,imgToonMap_);
+	modelMaterial_ = std::make_shared<ModelMaterial>(
+		(Application::PATH_SHADER + "ToonModelVS6.cso"), sizeof(FLOAT4) * (2 + 1), constBufsPtrVS,
+		(Application::PATH_SHADER + "ToonModelPS6.cso"), sizeof(FLOAT4) * 3, constBufsPtrPS, textures
+	);
+
+	renderer_ = std::make_shared<Renderer>(transform_.modelId, modelMaterial_);
+
 	// 初期状態
 	ChangeState(STATE::PLAY);
 
@@ -104,10 +140,16 @@ void Player::Draw(void)
 {
 
 	// モデルの描画
-	MV1DrawModel(transform_.modelId);
+	//MV1DrawModel(transform_.modelId);
 
 	// 丸影描画
 	DrawShadow();
+
+	// カメラ座標
+	auto camera = SceneManager::GetInstance().GetCamera();
+	auto cameraPos = camera.lock()->GetPos();
+	modelMaterial_->SetConstBufsVS({ cameraPos.x,cameraPos.y,cameraPos.z,0.0f }, 0);
+	renderer_->Draw();
 
 }
 
