@@ -1,4 +1,5 @@
 #include <DxLib.h>
+#include "../Manager/InputManager.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/Camera.h"
@@ -33,11 +34,17 @@ void Gate::Init(void)
 			0.0f
 		);
 
-	// ÉQÅ[ÉgÇÃòg
-	//modelId_ = MV1DuplicateModel();
-
 	transform_.pos = { 0.0f,100.0f,500.0f };
 	transform_.Update();
+
+	// ÉQÅ[ÉgÇÃòg
+	resModelId_ = MV1LoadModel("Data/Model/Gate/Gate.mv1");
+	playModelId_ = MV1DuplicateModel(resModelId_);
+
+	MV1SetPosition(playModelId_, { 0.0f,-30.0f,500.0f });
+
+	// ÉeÉNÉXÉ`ÉÉ
+	texId_ = resMng_.Load(ResourceManager::SRC::TEX_GATE).handleId_;
 
 	// ÉÇÉfÉãï`âÊóp
 	std::vector<FLOAT4> constBufsPtrVS;
@@ -54,26 +61,47 @@ void Gate::Init(void)
 	auto lDir = GetLightDirection();
 	deltaTime_ = SceneManager::GetInstance().GetDeltaTime();
 	constBufsPtrPS.push_back({ lDir.x,lDir.y,lDir.z, deltaTime_ });
+	alphaTime_ = 1.0f;
+	constBufsPtrPS.push_back({ alphaTime_,0.0f,0.0f,0.0f });
 
 	std::map<int, int> textures;
+	textures.emplace(1, texId_);
 	modelMaterial_ = std::make_shared<ModelMaterial>(
 		(Application::PATH_SHADER + "GateModelVS.cso"), sizeof(FLOAT4) * 1, constBufsPtrVS,
-		(Application::PATH_SHADER + "GateModelPS.cso"), sizeof(FLOAT4) * 3, constBufsPtrPS, textures
+		(Application::PATH_SHADER + "GateModelPS.cso"), sizeof(FLOAT4) * 4, constBufsPtrPS, textures
 	);
 
 	renderer_ = std::make_shared<Renderer>(transform_.modelId, modelMaterial_);
+
+	isDissolve_ = false;
 
 }
 
 void Gate::Update(void)
 {
+
+	auto& ins = InputManager::GetInstance();
+	if (ins.IsTrgDown(KEY_INPUT_V))
+	{
+		isDissolve_ = true;
+	}
+
 }
 
 void Gate::Draw(void)
 {
 
+	// ÉQÅ[ÉgÇÃògÇÃï`âÊ
+	MV1DrawModel(playModelId_);
+
+	// ÉQÅ[ÉgÉ~ÉXÉgÇÃï`âÊ
 	deltaTime_ += SceneManager::GetInstance().GetDeltaTime();
+	if (isDissolve_)
+	{
+		alphaTime_ -= 0.01f;
+	}
 	modelMaterial_->SetConstBufsPS({ 0.0f,0.0f,0.0f,deltaTime_ }, 2);
+	modelMaterial_->SetConstBufsPS({ alphaTime_,0.0f,0.0f,0.0f }, 3);
 	renderer_->Draw();
 
 }

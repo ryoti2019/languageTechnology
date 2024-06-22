@@ -47,6 +47,7 @@ public:
 		TEX_TOON,
 		GATE,
 		GATE_MIST,
+		TEX_GATE,
 	};
 
 	// 明示的にインステンスを生成する

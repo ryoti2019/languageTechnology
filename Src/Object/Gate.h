@@ -25,10 +25,16 @@ private:
 	std::shared_ptr<Renderer> renderer_;
 
 	// モデルID
-	int modelId_;
+	int resModelId_;
+	int playModelId_;
+
+	// テクスチャ
+	int texId_;
 
 	float deltaTime_;
+	float alphaTime_;
 
+	bool isDissolve_;
 
 };
 

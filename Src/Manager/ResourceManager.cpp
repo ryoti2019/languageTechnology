@@ -171,6 +171,10 @@ void ResourceManager::Init(void)
 	res = new RES(RES_T::MODEL, PATH_MDL + "Gate/GateMist.mv1");
 	resourcesMap_.emplace(SRC::GATE_MIST, res);
 
+	// ノイズテクスチャ
+	res = new RES(RES_T::IMG, PATH_MDL + "Gate/Noise2.png");
+	resourcesMap_.emplace(SRC::TEX_GATE, res);
+
 }
 
 void ResourceManager::Release(void)
