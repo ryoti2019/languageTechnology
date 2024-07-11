@@ -86,3 +86,8 @@ ModelMaterial::TEXADDRESS ModelMaterial::GetTextureAddress(void)
 {
 	return texAddress_;
 }
+
+void ModelMaterial::SetTextureAddress(TEXADDRESS texAddress)
+{
+	texAddress_ = texAddress;
+}

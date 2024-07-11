@@ -17,8 +17,9 @@ cbuffer cbParam : register(b4)
     float3 g_light_dir;
     float g_time;
     
-    float g_alpha_time;
-    float3 dummy;
+    float g_alpha;
+    float g_noise;
+    float2 dummy;
 }
 
 Texture2D noise : register(t1); //テクスチャ
@@ -30,29 +31,21 @@ float4 main(PS_INPUT PSInput) : SV_TARGET
     float4 noiseColor;
     float noiseUv = PSInput.uv;
     float2 uv = PSInput.uv;
-    //uv.x += g_time * 0.1f;
-    
+    uv.x += g_time * 0.1f;
+    uv *= float2(3.0f, 3.0f);
 
     noiseColor = noise.Sample(noiseMapSampler, uv);
     
-    // テクスチャーの色を取得
-    color = diffuseMapTexture.Sample(diffuseMapSampler, uv);
- 
-    if (color.a < 0.01f)
+    float noise = noiseColor.r + noiseColor.g + noiseColor.b;
+    noise = noise - (g_noise * g_noise);
+    noiseColor.a += noise;
+    
+    return noiseColor;
+    
+    noiseColor.a = g_alpha;
+    if (noiseColor.r <= g_noise && noiseColor.g <= g_noise && noiseColor.b <= g_noise)
     {
-        discard;
+        noiseColor.a -= 0.01f;
     }
     
-    noiseColor.a = g_alpha_time;
-    if (noiseColor.r >= 1.0f && noiseColor.g >= 1.0f && noiseColor.b >= 1.0f)
-    {
-        noiseColor.a = g_alpha_time;
-    }
-    
-    color = noiseColor;
-    
-    float lightDot = dot(PSInput.normal, -g_light_dir);
-    float3 rgb = color.rgb * (lightDot * g_diff_color.rgb);
-    rgb += g_ambient_color.rgb;
-    return float4(rgb, color.a);
 }

@@ -22,7 +22,7 @@ Water::~Water(void)
 void Water::Init(void)
 {
 
-	//åé
+	// êÖ
 	transform_.SetModel(
 		resMng_.LoadModelDuplicate(ResourceManager::SRC::WATER));
 	transform_.scl = VScale(AsoUtility::VECTOR_ONE, 5.0f);

@@ -33,6 +33,7 @@ private:
 
 	float deltaTime_;
 	float alphaTime_;
+	float time_;
 
 	bool isDissolve_;
 

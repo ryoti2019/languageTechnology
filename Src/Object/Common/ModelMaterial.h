@@ -50,6 +50,7 @@ public:
 
 	// ƒAƒhƒŒƒX‚Ìæ“¾
 	TEXADDRESS GetTextureAddress(void);
+	void SetTextureAddress(TEXADDRESS texAddress);
 
 private:
 
