@@ -61,8 +61,8 @@ void Gate::Init(void)
 	auto lDir = GetLightDirection();
 	deltaTime_ = SceneManager::GetInstance().GetDeltaTime();
 	constBufsPtrPS.push_back({ lDir.x,lDir.y,lDir.z, deltaTime_ });
-	alphaTime_ = 1.0f;
-	time_ = 0.0f;
+	alphaTime_ = 0.0f;
+	time_ = 1.0f;
 	constBufsPtrPS.push_back({ alphaTime_,time_,0.0f,0.0f });
 
 	std::map<int, int> textures;
@@ -100,10 +100,11 @@ void Gate::Draw(void)
 	if (isDissolve_)
 	{
 		alphaTime_ -= 0.01f;
-		time_ += 0.01;
+		time_ += 0.01f;
 	}
 	modelMaterial_->SetConstBufsPS({ 0.0f,0.0f,0.0f,deltaTime_ }, 2);
 	modelMaterial_->SetConstBufsPS({ alphaTime_,time_,0.0f,0.0f }, 3);
 	modelMaterial_->SetTextureAddress(ModelMaterial::TEXADDRESS::MIRROR);
 	renderer_->Draw();
+
 }

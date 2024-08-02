@@ -11,19 +11,16 @@
 cbuffer cbParam : register(b4)
 {
     float4 g_diff_color;
-    
     float4 g_ambient_color;
-    
     float3 g_light_dir;
     float g_time;
-    
     float g_alpha;
     float g_noise;
     float2 dummy;
 }
 
 Texture2D noise : register(t1); //テクスチャ
-SamplerState noiseMapSampler :register(s1);
+SamplerState noiseMapSampler : register(s1);
 
 float4 main(PS_INPUT PSInput) : SV_TARGET
 {
@@ -33,19 +30,26 @@ float4 main(PS_INPUT PSInput) : SV_TARGET
     float2 uv = PSInput.uv;
     uv.x += g_time * 0.1f;
     uv *= float2(3.0f, 3.0f);
-
+ 
     noiseColor = noise.Sample(noiseMapSampler, uv);
-    
     float noise = noiseColor.r + noiseColor.g + noiseColor.b;
     noise = noise - (g_noise * g_noise);
     noiseColor.a += noise;
-    
     return noiseColor;
-    
     noiseColor.a = g_alpha;
     if (noiseColor.r <= g_noise && noiseColor.g <= g_noise && noiseColor.b <= g_noise)
     {
         noiseColor.a -= 0.01f;
     }
+
+    //float dissolve = noise.Sample(noiseMapSampler, PSInput.uv);
+    //if(dissolve <= rate)
+    //{
+    //    discard;
+    //}
+    //float b = 1.0 - saturate(distance(saturate, dissolve));
+    //b = pow(b, 30.0f);
+    
+    //return tex.Sample(noiseMapSampler, PSInput.uv) + float4(float3(1.0, 0.25, 0.0) * b, 1.0);
     
 }
