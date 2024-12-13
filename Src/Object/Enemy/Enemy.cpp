@@ -27,7 +27,7 @@ void Enemy::Draw(void)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		DrawFormatString(0, 0 + i * 20, 0xffffff, "id:%s  type:%d", id_, (int)type_ );/* "hp:%d", hp_, "power:%d", power_, "speed:%f", speed_);*/
+		//DrawFormatString(0, 0 + i * 20, 0xffffff, "id:%s  type:%d", id_, (int)type_ );/* "hp:%d", hp_, "power:%d", power_, "speed:%f", speed_);*/
 	}
 }
 

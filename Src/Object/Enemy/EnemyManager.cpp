@@ -52,7 +52,7 @@ void EnemyManager::Draw(void)
 
 		++n;
 
-		DrawFormatString(0, 0 + 15 * n, 0x000000, "id:%s, type:%d, hp:%d, skills:%s", id.c_str(), type, hp, skill.c_str());
+		//DrawFormatString(0, 0 + 15 * n, 0x000000, "id:%s, type:%d, hp:%d, skills:%s", id.c_str(), type, hp, skill.c_str());
 	}
 
 }

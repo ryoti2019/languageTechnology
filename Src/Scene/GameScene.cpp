@@ -207,16 +207,16 @@ void GameScene::Draw(void)
 	gate_->Draw();
 
 	// ヘルプ
-	DrawFormatString(840, 20, 0x000000, "移動　　：WASD");
-	DrawFormatString(840, 40, 0x000000, "カメラ　：矢印キー");
-	DrawFormatString(840, 60, 0x000000, "ダッシュ：右Shift");
-	DrawFormatString(840, 80, 0x000000, "ジャンプ：＼(バクスラ)");
+	//DrawFormatString(840, 20, 0x000000, "移動　　：WASD");
+	//DrawFormatString(840, 40, 0x000000, "カメラ　：矢印キー");
+	//DrawFormatString(840, 60, 0x000000, "ダッシュ：右Shift");
+	//DrawFormatString(840, 80, 0x000000, "ジャンプ：＼(バクスラ)");
 
 	// カメラ座標
 	auto camera = SceneManager::GetInstance().GetCamera();
 	auto cameraPos = camera.lock()->GetPos();
-	DrawFormatString(20, 20, 0xffffff,
-		"カメラ位置(%.2f,%.2f,%.2f)", cameraPos.x, cameraPos.y, cameraPos.z);
+	//DrawFormatString(20, 20, 0xffffff,
+		//"カメラ位置(%.2f,%.2f,%.2f)", cameraPos.x, cameraPos.y, cameraPos.z);
 
 	//deltaTime_ += SceneManager::GetInstance().GetDeltaTime();
 
